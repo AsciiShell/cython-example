@@ -16,14 +16,14 @@ extensions = [Extension('hello.cp_utils', ['hello/cp_utils' + ('.pyx' if USE_CYT
                         extra_compile_args=['-std=c11', '-O3'], language='c')]
 
 if USE_CYTHON:
-    extensions = cythonize(extensions)
+    extensions = cythonize(extensions, language_level=3)
 
 with open('README.md', 'rt') as f:
     long_description = f.read()
 
 setup(
     name=module_name,
-    version='0.0.2',
+    version='0.1.0',
     description='A sample Python project',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -40,7 +40,11 @@ setup(
         'Programming Language :: Cython',
         'License :: OSI Approved :: MIT License',
         'Operating System :: POSIX',
+        'Operating System :: POSIX :: Linux',
         'Operating System :: Microsoft',
+        'Operating System :: Microsoft :: Windows :: Windows 10',
+        'Operating System :: MacOS',
+        'Operating System :: MacOS :: MacOS X',
     ],
     keywords=['python python3 cython cpp mit-license'],
     packages=find_packages(exclude=['tests']),
