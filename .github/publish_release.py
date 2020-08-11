@@ -32,9 +32,9 @@ def main():
 
     binaries = get_bins()
     try:
-        output = call('hub release create {} "{}"'.format(binaries, trigger))
+        output = call('hub release create {} -m "{}" "{}"'.format(binaries, trigger, trigger))
     except subprocess.CalledProcessError:
-        output = call('hub release edit {} "{}"'.format(binaries, trigger))
+        output = call('hub release edit {} -m "" "{}"'.format(binaries, trigger))
     print(output)
 
 
