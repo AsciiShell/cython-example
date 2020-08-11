@@ -6,11 +6,10 @@ import sys
 
 
 def call(*args):
-    proc = subprocess.run(args, stdout=subprocess.PIPE, shell=True, check=False)
+    proc = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True, check=False)
     if proc.returncode:
         print('Error: ', *args)
         print('STDOUT:', proc.stdout, file=sys.stdout)
-        print('STDERR:', proc.stderr, file=sys.stderr)
         proc.check_returncode()
     return proc.stdout.decode('utf8').strip()
 
@@ -18,7 +17,7 @@ def call(*args):
 def get_bins():
     path = 'dist'
     binaries = os.listdir(path)
-    binaries = ['-a {}/{}'.format(path, it) for it in binaries if it.endswith('.whl') or platform.system() == 'Linux']
+    binaries = ['-a "{}/{}"'.format(path, it) for it in binaries if it.endswith('.whl') or platform.system() == 'Linux']
     return ' '.join(binaries)
 
 
@@ -33,9 +32,9 @@ def main():
 
     binaries = get_bins()
     try:
-        output = call('hub release create {} {}'.format(binaries, trigger))
+        output = call('hub release create {} "{}"'.format(binaries, trigger))
     except subprocess.CalledProcessError:
-        output = call('hub release edit {} {}'.format(binaries, trigger))
+        output = call('hub release edit {} "{}"'.format(binaries, trigger))
     print(output)
 
 

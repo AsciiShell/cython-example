@@ -16,7 +16,7 @@ extensions = [Extension('hello.cp_utils', ['hello/cp_utils' + ('.pyx' if USE_CYT
                         extra_compile_args=['-std=c11', '-O3'], language='c')]
 
 if USE_CYTHON:
-    extensions = cythonize(extensions)
+    extensions = cythonize(extensions, language_level=3)
 
 with open('README.md', 'rt') as f:
     long_description = f.read()
