@@ -27,7 +27,9 @@ def get_bins():
 
 def main():
     trigger = os.getenv('GITHUB_REF_NAME', '')
+    print('Trigger before:', trigger)
     trigger = trigger.split('/')[-1]
+    print('Trigger after:', trigger)
     if not re.match(r'v\d+(\.\d+){2,}', trigger):
         version = call('python', 'setup.py', '--version')
         commit = call('git', 'describe', '--always', '--abbrev=8')
