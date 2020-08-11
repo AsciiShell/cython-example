@@ -2,10 +2,16 @@ import os
 import platform
 import re
 import subprocess
+import sys
 
 
 def call(*args):
-    proc = subprocess.run(args, stdout=subprocess.PIPE, shell=True, check=True)
+    proc = subprocess.run(args, stdout=subprocess.PIPE, shell=True, check=False)
+    if proc.returncode:
+        print('Error: ', *args)
+        print('STDOUT:', proc.stdout, file=sys.stdout)
+        print('STDERR:', proc.stderr, file=sys.stderr)
+        proc.check_returncode()
     return proc.stdout.decode('utf8').strip()
 
 
