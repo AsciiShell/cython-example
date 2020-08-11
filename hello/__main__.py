@@ -5,9 +5,9 @@ from hello.cp_utils import hello_cpfunc
 
 def main():
     print('Hello, world!')
+    print(hello_pyfunc(10, 20))
     print(hello_cyfunc(10, 20))
     print(hello_cpfunc(10, 20))
-    print(hello_pyfunc(10, 20))
 
 
 if __name__ == '__main__':
