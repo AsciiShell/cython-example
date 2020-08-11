@@ -26,7 +26,7 @@ def get_bins():
 
 
 def main():
-    trigger = os.getenv('GITHUB_REF_NAME', '')
+    trigger = os.getenv('GITHUB_REF', '')
     print('Trigger before:', trigger)
     trigger = trigger.split('/')[-1]
     print('Trigger after:', trigger)
