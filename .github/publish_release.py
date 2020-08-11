@@ -5,8 +5,8 @@ import subprocess
 import sys
 
 
-def call(*args):
-    proc = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True, check=False)
+def call(*args, shell=False):
+    proc = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=shell, check=False)
     if proc.returncode:
         print('Error: ', *args)
         print('STDOUT:', proc.stdout, file=sys.stdout)
@@ -25,16 +25,16 @@ def main():
     trigger = os.getenv('GITHUB_REF_NAME', '')
     trigger = trigger.split('/')[0]
     if not re.match(r'v\d+(\.\d+){2,}', trigger):
-        version = call('python setup.py --version')
-        commit = call('git describe --always --abbrev=8')
+        version = call('python', 'setup.py', '--version')
+        commit = call('git', 'describe', '--always', '--abbrev=8')
         trigger = 'v{}-{}'.format(version, commit)
     print(trigger)
 
     binaries = get_bins()
     try:
-        output = call('hub release create {} -m "{}" "{}"'.format(binaries, trigger, trigger))
+        output = call('hub release create {} -m "{}" "{}"'.format(binaries, trigger, trigger), shell=True)
     except subprocess.CalledProcessError:
-        output = call('hub release edit {} -m "" "{}"'.format(binaries, trigger))
+        output = call('hub release edit {} -m "" "{}"'.format(binaries, trigger), shell=True)
     print(output)
 
 
