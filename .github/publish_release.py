@@ -17,8 +17,12 @@ def call(*args, shell=False):
 def get_bins():
     path = 'dist'
     binaries = os.listdir(path)
-    binaries = ['-a "{}/{}"'.format(path, it) for it in binaries if it.endswith('.whl') or platform.system() == 'Linux']
-    return ' '.join(binaries)
+    bins = []
+    for it in binaries:
+        if it.endswith('.whl') or platform.system() == 'Linux':
+            bins.append('-a')
+            bins.append('{}/{}'.format(path, it))
+    return bins
 
 
 def main():
@@ -32,9 +36,9 @@ def main():
 
     binaries = get_bins()
     try:
-        output = call('hub release create {} -m "{}" "{}"'.format(binaries, trigger, trigger), shell=True)
+        output = call('hub', 'release', 'create', *binaries, '-m', trigger, trigger)
     except subprocess.CalledProcessError:
-        output = call('hub release edit {} -m "" "{}"'.format(binaries, trigger), shell=True)
+        output = call('hub', 'release', 'edit', *binaries, '-m', trigger, trigger)
     print(output)
 
 
