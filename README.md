@@ -10,20 +10,15 @@ Demo methods in c++/cython/python languages are used together.
 
 # Build 
 
-Create source distribution:
 ```shell script
-python3 setup.py sdtist --formats zip,gztar
+pip install -U pip setuptools Cython wheel
+python setup.py sdist bdist_wheel
 ```
 
 Install distribution:
 ```shell script
 pip install hello-0.0.1.zip
 hello
-```
-
-Create binary distribution (os dependent):
-```shell script
-python3 setup.py bdist
 ```
 
 # License
